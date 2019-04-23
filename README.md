@@ -11,10 +11,10 @@ It is consist of following componants ...
 
 Requirements
 ----------------------
-Python 2.7.10
-Ansible 2.7
-node v8.12.0
-npm 6.4.1
+- Python 2.7.10
+- Ansible 2.7
+- node v8.12.0
+- npm 6.4.1
 
 Above requirements need to installed on platform host machine from where we are going to build and releae app.
 ## Available Scripts
