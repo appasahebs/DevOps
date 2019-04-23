@@ -1,0 +1,30 @@
+---
+- name: "Build & Release Webapp"
+  command: npm -version
+
+- name: "Install and Update App Dependancies"
+  shell: 
+    cmd: |
+      cd webapp
+      npm install
+
+- name: "Create build"
+  shell: 
+    cmd: |
+      cd webapp
+      npm run build
+
+- name: Creates Relese Directory
+  file:
+    path: webapp/release
+    state: directory
+
+- name: "Compress build as packaged file"
+  archive:
+    path: "webapp/build"
+    dest: webapp/release/build_{{build_version}}.tgz
+
+- name: Add Relese Version
+  shell:
+    cmd: |
+      echo "build_{{build_version}}" >> webapp/release/releases.txt

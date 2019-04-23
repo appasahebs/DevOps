@@ -1,0 +1,3 @@
+---
+# vars file for build
+build_version: "{{ansible_date_time.epoch}}"

@@ -1,0 +1,33 @@
+---
+# tasks file for deploy
+- name: Creates Releses Directory
+  file:
+    path: /usr/share/nginx/releases/{{item}}
+    state: directory
+    owner: vagrant
+    group: vagrant
+  with_lines: cat webapp/release/releases.txt
+
+- name: Copy build to remote host
+  unarchive: 
+    src: "webapp/release/{{item}}.tgz"
+    dest: /usr/share/nginx/releases/{{item}}
+    owner: vagrant
+    group: vagrant
+  with_lines: cat webapp/release/releases.txt
+
+- name: Pick latest build
+  shell: cd /usr/share/nginx/releases && ls -td -- * | head -n 1
+  register: latest_build
+
+- name: Move old build to backup
+  command: mv /usr/share/nginx/html /usr/share/nginx/html_old
+
+- name: Create symbolic link 
+  file:
+    src: /usr/share/nginx/releases/{{latest_build.stdout}}/build
+    dest: "/usr/share/nginx/html"
+    state: link
+    force: yes
+    owner: vagrant
+    group: vagrant
